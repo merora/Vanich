@@ -1,0 +1,11 @@
+{
+  "/page": "app/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/product/page": "app/product/page.js",
+  "/job/page": "app/job/page.js",
+  "/profile/page": "app/profile/page.js",
+  "/cart/page": "app/cart/page.js",
+  "/product/detail/page": "app/product/detail/page.js",
+  "/checkout/page": "app/checkout/page.js",
+  "/job/detail/page": "app/job/detail/page.js"
+}
