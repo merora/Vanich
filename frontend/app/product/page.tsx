@@ -6,7 +6,22 @@ import ProductCard from "@/components/ProductCard";
 import Image from "next/image";
 import Link from "next/link";
 
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 export default function ProductPage() {
+  const [products, setProducts] = useState([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const res = await fetch("http://localhost:8000/api/products/");
+      const data = await res.json();
+      setProducts(data);
+    };
+    fetchProducts();
+  }, []);
+
   return (
     <div className="bg-gray-50 min-h-screen">
       <Navbar />
@@ -29,13 +44,13 @@ export default function ProductPage() {
 
           {/* Product grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <Link href="/product/detail" key={i}>
+            {products.map((product: any) => (
+              <Link href={`/products/${product.id}`} key={product.id}>
                 <ProductCard
-                  name={`ชื่อสินค้า ${i + 1}`}
-                  price={`100.00 บาท`}
-                  image={`/product${i + 1}.jpg`}
-                  vendor="ชื่อร้าน / กลุ่มเกษตรกร"
+                  name={product.name}
+                  price={`${product.price} บาท`}
+                  image={product.image_url}
+                  vendor={product.shop_name || "ไม่ทราบผู้ขาย"}
                 />
               </Link>
             ))}

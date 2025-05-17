@@ -3,9 +3,34 @@
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  image_url: string;
+}
 
 export default function ProductDetail() {
   const router = useRouter();
+  const [product, setProduct] = useState<Product | null>(null);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const res = await fetch(`http://localhost:8000/api/products/1/`);
+      const data = await res.json();
+      setProduct(data);
+    };
+
+    fetchProduct();
+  }, []);
+
+  if (!product) {
+    return <div className="text-center mt-20">กำลังโหลดข้อมูลสินค้า...</div>;
+  }
 
   return (
     <div className="bg-white min-h-screen">
@@ -15,8 +40,8 @@ export default function ProductDetail() {
         {/* Left: Product Image */}
         <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-md">
           <Image
-            src="/product3.jpg"
-            alt="ชื่อสินค้า"
+            src={product.image_url}
+            alt={product.name}
             fill
             className="object-cover"
           />
@@ -25,37 +50,33 @@ export default function ProductDetail() {
         {/* Right: Product Info */}
         <div>
           <h1 className="text-2xl font-extrabold text-black mb-2">
-            ชากุหลาบ ชามะลิ ชาลาเวนเดอร์ ชาเกสรบัว
+            {product.name}
           </h1>
 
           <p className="text-sm text-green-700 font-medium mb-4">
-            หมวดหมู่: ชาสมุนไพร
+            หมวดหมู่: {product.category}
           </p>
 
-          <p className="text-gray-600 mb-6 max-w-xl">
-            Rhoncus morbi et augue nec, in id ullamcorper at sit. Condimentum
-            sit nunc in eros scelerisque sed. Commodo in viverra nunc,
-            ullamcorper ut. Non, amet, aliquet scelerisque nullam sagittis,
-            pulvinar.
-          </p>
+          <p className="text-gray-600 mb-6 max-w-xl">{product.description}</p>
 
-          <div className="text-3xl font-semibold mb-6">100.00 บาท</div>
+          <div className="text-3xl font-semibold mb-6">
+            {product.price.toFixed(2)} บาท
+          </div>
 
           <div className="flex space-x-4">
-          <button
+            <button
               onClick={() => router.push("/checkout")}
-  className="bg-green-800 text-white px-6 py-2 rounded hover:bg-green-900"
->
-  ซื้อ
-</button>
+              className="bg-green-800 text-white px-6 py-2 rounded hover:bg-green-900"
+            >
+              ซื้อ
+            </button>
 
-<button
-  onClick={() => router.push("/cart")}
-  className="border border-green-800 text-green-800 px-6 py-2 rounded hover:bg-green-100"
->
-  ลงจะกล้า
-</button>
-
+            <button
+              onClick={() => router.push("/cart")}
+              className="border border-green-800 text-green-800 px-6 py-2 rounded hover:bg-green-100"
+            >
+              ลงจะกล้า
+            </button>
           </div>
         </div>
       </div>

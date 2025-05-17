@@ -6,7 +6,10 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    tel = models.CharField(max_length=20, blank=True)
+    phone = models.CharField(max_length=20, blank=True)
+    agree = models.BooleanField(default=False)
+    def __str__(self):
+        return self.user.username
 
 
 class ShopProfile(models.Model):
@@ -34,6 +37,8 @@ class Product(models.Model):
     description = models.CharField(max_length=2000)
     price = models.DecimalField(max_digits=6, decimal_places=2, validators=[MinValueValidator(0.0)])
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    image_url = models.URLField(blank=True, null=True)
+    type = models.CharField(max_length=40, default="none")
 
 class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -41,6 +46,8 @@ class Order(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     total_amount = models.PositiveIntegerField(validators=[MaxValueValidator(4)])
     status = models.CharField(max_length=10)
+    # address
+    # payment
 
 class OrderItem(models.Model):
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)

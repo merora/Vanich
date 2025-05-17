@@ -5,16 +5,28 @@ from .models import *
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'user__first_name', 'user__last_name', 'tel')
-    search_fields = ('user__username', 'user__first_name', 'user__last_name', 'tel')
-    list_filter = ('user__username',)
+    list_display = ('id', 'user','first_name', 'last_name', 'phone')
+    search_fields = ('first_name', 'last_name', 'phone')
+    list_filter = ('user__first_name',)
     ordering = ('id',)
+    def first_name(self, obj):
+        return obj.user.first_name
+
+    def last_name(self, obj):
+        return obj.user.last_name
 
 
 admin.site.register(ShopProfile)
 admin.site.register(Category)
 admin.site.register(CommissionJob)
-admin.site.register(Product)
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('id', 'shop_id', 'name', 'description', 'price', 'category_id', 'image_url', 'type')
+    search_fields = ('name', 'shop_id')
+    list_filter = ('name',)
+    ordering = ('id',)
+
 admin.site.register(OrderItem)
 
 @admin.register(Order)

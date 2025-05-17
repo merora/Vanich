@@ -25,7 +25,8 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('register/', YourRegisterView.as_view()),
-    path('api/data/', sample_data),
+    path("api/register/", RegisterView.as_view()),
+    path("api/products/<int:pk>/", ProductDetailView.as_view(), name="product-detail"),
+    path("api/products/", ProductListView.as_view())
 ]
 
