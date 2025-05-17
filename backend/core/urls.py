@@ -17,7 +17,23 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from service.views import *
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/register/", RegisterView.as_view()),
+    path("api/products/<int:pk>/", ProductDetailView.as_view(), name="product-detail"),
+    path("api/products/", ProductListView.as_view(), name="product-all"),
+    path("api/jobs/", JobListView.as_view(), name="job-all"),
+    path("api/jobs/<int:pk>/", JobDetailView.as_view(), name="job-detail"),
+
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
