@@ -2,4 +2,4 @@ Django>=5.2
 gunicorn
 djangorestframework
 djangorestframework-simplejwt
-corsheaders
+django-cors-headers
