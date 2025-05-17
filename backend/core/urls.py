@@ -27,6 +27,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/register/", RegisterView.as_view()),
     path("api/products/<int:pk>/", ProductDetailView.as_view(), name="product-detail"),
-    path("api/products/", ProductListView.as_view())
+    path("api/products/", ProductListView.as_view(), name="product-all"),
+    path("api/jobs/", JobListView.as_view(), name="job-all"),
+    path("api/jobs/<int:pk>/", JobDetailView.as_view(), name="job-detail"),
+
 ]
 

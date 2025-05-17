@@ -1,5 +1,0 @@
-module.exports = {
-    images: {
-        domain: ["lh3.googleusercontent.com"]
-    }
-}

@@ -1,3 +1,12 @@
 {
-  "/product/page": "app/product/page.js"
+  "/job/page": "app/job/page.js",
+  "/job/detail/[id]/page": "app/job/detail/[id]/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
+  "/product/detail/[id]/page": "app/product/detail/[id]/page.js",
+  "/product/page": "app/product/page.js",
+  "/chat/page": "app/chat/page.js",
+  "/checkout/page": "app/checkout/page.js",
+  "/profile/page": "app/profile/page.js",
+  "/register/page": "app/register/page.js"
 }

@@ -3,9 +3,31 @@
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+interface Job {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  image_url: string;
+  type: string;
+}
 
 
 export default function JobPage() {
+  const [jobs, setJobs] = useState<Job[]>([]);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      const res = await fetch("http://localhost:8000/api/jobs/");
+      const data = await res.json();
+      setJobs(data);
+    };
+    fetchJobs();
+  }, []);
+
   const categories = [
     { name: "รับตัดต้นไม้", image: "/job-cat-1.jpg" },
     { name: "ผู้เชี่ยวชาญที่ให้ความรู้เฉพาะด้าน", image: "/job-cat-2.jpg" },
@@ -82,20 +104,24 @@ export default function JobPage() {
   <div className="max-w-7xl mx-auto">
     <h2 className="text-lg font-bold mb-4">งานล่าสุด</h2>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <Link href="/job/detail" key={i}>
+      {jobs.slice(0, 4).map((job) => (
+        <Link href={`/job/detail/${job.id}`} key={job.id}>
           <div className="bg-white rounded-lg shadow overflow-hidden cursor-pointer hover:shadow-md transition">
-            <Image
-              src={`/job-latest-${i + 1}.jpg`}
-              alt="job"
+            {/* <Image
+              src={job.image_url}
+              alt={job.name}
               width={400}
               height={200}
               className="w-full h-40 object-cover"
-            />
+            /> */}
             <div className="p-4">
-              <h3 className="font-semibold">ชื่องาน {i + 1}</h3>
-              <p className="text-sm text-gray-500">รายละเอียดสั้นของงาน</p>
-              <p className="text-sm text-gray-600 mt-2">ร้าน/กลุ่ม: กลุ่มตัวอย่าง</p>
+              <h3 className="font-semibold">{job.name}</h3>
+              <p className="text-sm text-gray-500">
+                {job.description.slice(0, 40)}...
+              </p>
+              <p className="text-sm text-gray-600 mt-2">
+                กลุ่ม: {job.category || "ไม่ทราบ"}
+              </p>
             </div>
           </div>
         </Link>
@@ -109,23 +135,26 @@ export default function JobPage() {
   <div className="max-w-7xl mx-auto">
     <h2 className="text-lg font-bold mb-4">งานจากหมวดหมู่ งานแฮนด์เมด</h2>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <Link href="/job/detail" key={i}>
-          <div className="bg-white rounded-lg shadow overflow-hidden cursor-pointer hover:shadow-md transition">
-            <Image
-              src={`/job-handmade-${i + 1}.jpg`}
-              alt="handmade"
-              width={400}
-              height={200}
-              className="w-full h-40 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="font-semibold">แฮนด์เมด {i + 1}</h3>
-              <p className="text-sm text-gray-500">กลุ่มตัวอย่าง</p>
+      {jobs
+        .filter((job) => job.category === "งานแฮนด์เมด")
+        .slice(0, 4)
+        .map((job) => (
+          <Link href={`/job/detail/${job.id}`} key={job.id}>
+            <div className="bg-white rounded-lg shadow overflow-hidden cursor-pointer hover:shadow-md transition">
+              {/* <Image
+                src={job.image_url}
+                alt={job.name}
+                width={400}
+                height={200}
+                className="w-full h-40 object-cover"
+              /> */}
+              <div className="p-4">
+                <h3 className="font-semibold">{job.name}</h3>
+                <p className="text-sm text-gray-500">{job.category}</p>
+              </div>
             </div>
-          </div>
-        </Link>
-      ))}
+          </Link>
+        ))}
     </div>
   </div>
 </section>

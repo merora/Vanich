@@ -45,11 +45,11 @@ export default function ProductPage() {
           {/* Product grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {products.map((product: any) => (
-              <Link href={`/products/${product.id}`} key={product.id}>
+              <Link href={`/product/detail/${product.id}`} key={product.id}>
                 <ProductCard
                   name={product.name}
                   price={`${product.price} บาท`}
-                  image={product.image_url}
+                  // image={product.image_url}
                   vendor={product.shop_name || "ไม่ทราบผู้ขาย"}
                 />
               </Link>

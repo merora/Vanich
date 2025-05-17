@@ -16,8 +16,10 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=400)
 
 class ProductDetailView(RetrieveAPIView):
-    queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        return Product.objects.filter(type='product')
 
 class ProductListView(ListAPIView):
     serializer_class = ProductSerializer
@@ -30,4 +32,15 @@ class JobListView(ListAPIView):
 
     def get_queryset(self):
         return Product.objects.filter(type='job')
+
+
+class JobDetailView(APIView):
+    def get(self, request, pk):
+        try:
+            job = Product.objects.filter(type='job').get(pk=pk)
+            serializer = ProductSerializer(job)
+            return Response(serializer.data)
+        except Product.DoesNotExist:
+            return Response({"detail": "Not found."}, status=404)
+        
 
