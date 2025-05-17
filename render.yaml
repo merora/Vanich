@@ -5,7 +5,6 @@ services:
     plan: free
     dockerfilePath: ./backend/Dockerfile
     buildCommand: ""
-    startCommand: python manage.py runserver 0.0.0.0:8000
     envVars:
       - key: DEBUG
         value: "False"
@@ -18,7 +17,6 @@ services:
     plan: free
     dockerfilePath: ./frontend/Dockerfile
     buildCommand: ""
-    startCommand: npm run dev
     envVars:
       - key: NEXT_PUBLIC_API_URL
         value: https://vanich.onrender.com
