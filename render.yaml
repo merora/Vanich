@@ -4,19 +4,19 @@ services:
     env: docker
     plan: free
     dockerfilePath: ./backend/Dockerfile
-    buildCommand: ""
     envVars:
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
         value: "vanich-backend.onrender.com"
+      - key: DJANGO_SETTINGS_MODULE
+        value: core.settings
 
   - type: web
     name: vanich-frontend
     env: docker
     plan: free
     dockerfilePath: ./frontend/Dockerfile
-    buildCommand: ""
     envVars:
       - key: NEXT_PUBLIC_API_URL
         value: https://vanich-backend.onrender.com
