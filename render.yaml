@@ -3,26 +3,22 @@ services:
     name: vanich-backend
     env: docker
     plan: free
-    repo: https://github.com/juuichivember/Vanich
-    dockerfilePath: backend/Dockerfile
+    dockerfilePath: ./backend/Dockerfile
     buildCommand: ""
-    startCommand: "gunicorn vanich_backend.wsgi:application --bind 0.0.0.0:8000"
+    startCommand: python manage.py runserver 0.0.0.0:8000
     envVars:
       - key: DEBUG
-        value: false
-      - key: DJANGO_ALLOWED_HOSTS
-        value: your-backend-url.onrender.com
-      - key: DATABASE_URL
-        value: YOUR_DB_URL_HERE
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "vanich.onrender.com"
 
   - type: web
     name: vanich-frontend
     env: docker
     plan: free
-    repo: https://github.com/juuichivember/Vanich
-    dockerfilePath: frontend/Dockerfile
+    dockerfilePath: ./frontend/Dockerfile
     buildCommand: ""
-    startCommand: "npm run start"
+    startCommand: npm run dev
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        value: https://your-backend-url.onrender.com/api
+        value: https://vanich.onrender.com

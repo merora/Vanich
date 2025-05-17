@@ -1,17 +1,9 @@
-FROM node:18-alpine
+FROM node:18
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
+COPY frontend/ /app/
 
-RUN npm install -g pnpm
-
-RUN pnpm install --frozen-lockfile
-
-COPY . .
-
-RUN pnpm build
-
+RUN npm install
 EXPOSE 3000
-
-CMD ["pnpm", "start"]
+CMD ["npm", "run", "dev"]
