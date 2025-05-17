@@ -1,9 +1,25 @@
 "use client";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 
 export default function RegisterPage() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
+  const handleRegister = async () => {
+  const res = await fetch("http://localhost:8000/api/register/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+
+  if (res.ok) {
+    router.push("/login");
+  } else {
+    alert("Register failed");
+  }
+};
   return (
     <div className="bg-white min-h-screen">
       <Navbar />

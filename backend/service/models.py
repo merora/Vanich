@@ -4,6 +4,11 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 
+class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    tel = models.CharField(max_length=20, blank=True)
+
+
 class ShopProfile(models.Model):
     shop_id = models.IntegerField()
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)

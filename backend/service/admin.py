@@ -2,6 +2,15 @@ from django.contrib import admin
 from .models import *
 
 # Register your models here.
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'user__first_name', 'user__last_name', 'tel')
+    search_fields = ('user__username', 'user__first_name', 'user__last_name', 'tel')
+    list_filter = ('user__username',)
+    ordering = ('id',)
+
+
 admin.site.register(ShopProfile)
 admin.site.register(Category)
 admin.site.register(CommissionJob)
